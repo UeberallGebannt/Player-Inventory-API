@@ -1,22 +1,19 @@
-buildscript
-{
-    repositories
-    {
+buildscript {
+    repositories {
         mavenCentral()
-        maven
-        {
+        maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
-        maven
-        {
+        maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
-    dependencies
-    {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    dependencies {
+        classpath('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }
     }
 }
 
@@ -25,68 +22,55 @@ version = "1.7.10-1.0.3"
 group = "clashsoft.playerinventoryapi"
 archivesBaseName = "PlayerInventoryAPI"
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-minecraft
-{
-    version = "1.7.10-10.13.1.1217"
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
 
-    if(file('../run').exists())
-    {
+    if (file('../run').exists()) {
         runDir = "../run/"
-    }
-    else
-    {
+    } else {
         runDir = "eclipse/"
     }
 }
 
-task devJar(type:Jar, dependsOn:'classes')
-devJar
-{
+task devJar(type: Jar, dependsOn: 'classes')
+devJar {
     classifier = 'dev'
     archiveName = "${archivesBaseName}-${version}-dev.jar"
-    from ('build/classes/main')
-    {
+    from('build/classes/main') {
         include('clashsoft/playerinventoryapi/**')
     }
-    from ('build/resources/main')
-    {
+    from('build/resources/main') {
         include('assets/piapi/**')
     }
 }
 
-task srcJar(type:Jar, dependsOn:'classes')
-srcJar
-{
+task srcJar(type: Jar, dependsOn: 'classes')
+srcJar {
     classifier = 'src'
     archiveName = "${archivesBaseName}-${version}-src.jar"
-    from ('build/sources/java')
-    {
+    from('build/sources/java') {
         include('clashsoft/playerinventoryapi/**')
     }
-    from ('build/resources/main')
-    {
+    from('build/resources/main') {
         include('assets/piapi/**')
     }
 }
 
-task buildApi(dependsOn:['build', 'srcJar', 'devJar'])
+task buildApi(dependsOn: ['build', 'srcJar', 'devJar'])
 
-processResources
-{
+processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    from(sourceSets.main.resources.srcDirs)
-    {
+    from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
 
-    from(sourceSets.main.resources.srcDirs)
-    {
+    from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 }

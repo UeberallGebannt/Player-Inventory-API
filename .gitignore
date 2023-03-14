@@ -3,10 +3,8 @@
 .classpath
 .settings/
 .gradle/
-gradle/
-gradlew
-gradlew.bat
 bin/
 build/
+.idea/
 
 .settings/org.eclipse.jdt.core.prefs
