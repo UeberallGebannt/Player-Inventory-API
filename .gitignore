@@ -6,5 +6,6 @@
 bin/
 build/
 .idea/
+eclipse/
 
 .settings/org.eclipse.jdt.core.prefs
